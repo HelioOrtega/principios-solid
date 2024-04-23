@@ -1,0 +1,16 @@
+{
+    "name": "helio/app_carrinho_compras",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Helio",
+            "email": "helio.ortega.neto@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    }
+}
