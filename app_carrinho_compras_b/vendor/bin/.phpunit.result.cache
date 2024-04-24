@@ -1,0 +1,1 @@
+{"version":1,"defects":{"itemTest::testEstouFuncionando":7,"ItemTest::testItemValido":7,"ItemTest::testGetESetValor":8},"times":{"itemTest::testEstouFuncionando":0.003,"ItemTest::testEstadoInicialItem":0.003,"ItemTest::testGetESetDescricao":0,"ItemTest::testGetESetValor":0.007,"ItemTest::testItemValido":0}}
