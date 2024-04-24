@@ -26,6 +26,8 @@ class Arquivo {
         while(($linha = fgetcsv($handle, 10000, ';')) !== false) {
              $this->setDados($linha[0], $linha[1], $linha[2]);
         }
+
+        fclose($handle);
     }
 
     public function lerArquivoTXT(string $caminho): void {
@@ -39,5 +41,7 @@ class Arquivo {
             $email = substr($linha, 41, 50);
             $this->setDados($nome, $cpf, $email);
         }
+
+        fclose($handle);
     }
 }
