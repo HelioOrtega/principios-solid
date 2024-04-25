@@ -1,0 +1,15 @@
+{
+    "name": "helio/app_poligonos",
+    "authors": [
+        {
+            "name": "Helio Ortega",
+            "email": "helio.ortega.neto@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    }
+}
