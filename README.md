@@ -45,7 +45,7 @@
 
 #### Prática - Cenário Inicial (app_etl)
 
-![alt text](resources/image.png)
+![alt text](resources/image-0.png)
 
 > Analisando a conduta de como foi implementado o projeto ETL. A aplicação recupera informação diversas fontes e transforma essas informações com o propósito de retorná-las em alguma saída.<br>
 > Foram criadas classes chamadas Leitor e Arquivo, com responsabilidades únicas para atender aos princípios do SRP.<br>
@@ -185,3 +185,6 @@
 > De modo que essa abstração possa ser usada no lugar da implementação das classes Email e SMS.<br>
 > Para atender ao Princípio da Inversão de Dependência, é necessário injetar a dependência abstrata dentro o objeto Mensageiro, ao invés de implementar as classes Email e Sms,dentro do módulo enviarToken().
 > Ao fazer isso, estará invertendo a dependência. A classe Mensageiro irá depender da abstração IMensagem e não mais das implementações das classes Email e Sms.
+> A partir daí, a classe Mensageiro não dependerá mais do Email ou Sms em si, mas da interface que determina o método que os objetos devem implementar.
+> Agora não necessita mais utilizar o metdo setCanal() para determinar o canal onde será utilizado o envio do token.
+> Será passado a dependencia necessária para o método enviarToken();
