@@ -125,4 +125,10 @@
 
 ![alt text](resources/image-8.png)
 
+> Nesse momento, foi segradado as interfaces ICadastro, ILog e INotificacao, para atender ao Interface Segregation Principle.<br>
+> Agora com interfaces segregadas, as lasses cliente só irão impelemtar interfaces cujos métodos serão utilizados pela classe.<br>
+> Feito isso, não haverá mais a necessidade de implementar métodos dentro das classes por obrigação da interface que não serão usada pelos seus respectivos objetos.<br>
+> A classe ContratoModel continua implementando a interface ICadastro.<br>
+> Já na classe LeadModel será implementado as interfaces ICadastro e INotificacao.<br>
+
 ## DIP - Dependency Inversion Principle
