@@ -29,6 +29,8 @@
 
 ## OCP - Open/Closed Principle (Princípio Aberto Fechado)
 
+### Uma entidade de Software, tais como classes, módulos, funções, etc, devem sempre estarem abertas para extensões, mas fechadas para modificações.
+
 ### O que é uma alteração de código
 
 > Ocorro quando precisamos acessar uma classe já existente para incluir ou modificar comportamentos, ou para incluir ou modificar métodos da classe.
@@ -108,7 +110,6 @@
 > Isso gera baixo acoplamento e alta coesão. Para afim de que as classes clientes não sejam forçadas a implementar métodos que não serão utilizados 
 > Segundo o ISP, se os métodos implementados não forem utilizados pelos objetos que serão instanciados a partir da classe, então não faz sentido a implementação desses métodos. 
 
-
 #### Prática - Cenário Inicial (app_crm)
 
 ![alt text](resources/image-7.png)
@@ -130,5 +131,57 @@
 > Feito isso, não haverá mais a necessidade de implementar métodos dentro das classes por obrigação da interface que não serão usada pelos seus respectivos objetos.<br>
 > A classe ContratoModel continua implementando a interface ICadastro.<br>
 > Já na classe LeadModel será implementado as interfaces ICadastro e INotificacao.<br>
+> Na classe UsuarioModel é necessário implementar todos os três métodos, portanto ele irá implementar as três interfaces.<br>
 
 ## DIP - Dependency Inversion Principle
+
+### Módulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de abstrações.
+
+> Isso significa que deve-se atentar às instâncias de classes que são descritas em outras classes.<br>
+> Quando temos instâncias de classes dentro de outras classes, a classe que descreve a instância é tida como a classe de alto nível, enquanto a classe consumida será a classe de baixo nível.<br>
+
+### Dependa de uma abstração e não de uma implementação.
+
+> Abstrações são Classes Abstratas ou Interfaces.<br>
+> Inversão de dependência ocorre através da injeção de dependência.<br>
+> Essas injeções podem ser feitas via construtor, métodos get e set, via interface ou via Framework.<br>
+
+### Abstrações não devem depender de detalhes. Detalhes devem depender das abstrações.
+
+> Quando realizamos a instâncias de uma classe, criamos um objetos daquele tipo, com todos seus atributos e comportamentos, de acordo com suas visibilidades.<br>
+> Uma classe cliente não precisa saber de todos os atributos e comportamentos da classe que está instanciando.<br>
+> Para o Princípio da Inversão de Dependência, o ideal é que a classe de alto nível não tenha conhecimento das classes de baixo nível, exceto os comportamentos dos quais ela faria uso.<br>
+> Para isso deve ser extraído para uma Classe Abstrata ou Interface o comportamento usado pela classe de alto nível em relação a classe de baixo nível.<br>
+
+### Benefícios
+
+> Quando é aplicado a inversão de dependência, através da injeção de dependência, a classe de alto nível, por não depender de uma implementação de uma classe de baixo nível, não se torna frágil a mudanças relacionadas as classes de baixo nível.<br>
+> Ao realizar a injeção de um dependência, elimina-se o forte acoplamento entre os objetos. Ao injetar um objeto de outro objeto, perde-se a necessidade de instanciar um objeto injetado dentro de outro cliente.<br>
+> Assim, cria-se escopos bem mais definidos, facilitanto também os testes unitários.<br>
+
+#### Prática - Cenário Inicial (app_mensageiro)
+
+![alt text](resources/image-9.png)
+
+> Foi definido inicalmente a classe  Mensageiro, com o método enviarToken() e a classe Email com o método enviar(). Os métodos possuem apenas um "mock" dessas funcionalidades.<br>
+> A ideia do projeto mensageiro é semelhante ao envio de tokens por e-mail ou SMS para permitir a autenticação de dois fatores, onde mesmo com um usuário e senha, a aplicação exige um token de validação.<br>
+> Tanto o SMS quanto o Email possuem o método enviar(). Qualquer canal que seja implementado dentro da aplicação com o propósito de enviar Token, precisará implementar o método enviar().<br>
+> Precisa-se garantir que as classes que habilitarão esses canais de comunicação sempre implementem o método enviar(). Para isso foi criado a interface IMensagem.
+> Foi criado o atributo canal dentro da classe Mensageiro. Assim caso novas classes sejam criadas como WhatsApp ou PushNotification, basta determinal o canal que o Mensageiro irá utilizar.<br>
+> Com isso, a aplicação atende aos Princípios da Responsabildiade Única, o Princípio Aberto e Fechado, o Princípio da Substituição de Liskov, e caso houvessem outras interfaces, atenderia ao Princípio da Segregação de Interfaces.<br>
+> Porém até o momento, a aplicação ainda não atende ao DIP, Dependnecy Inversion Principle, ou seja o Princípio da Inversão de Dependência.<br>
+>  No projeto a classe Mensageiro descreve uma instância da classe Email ou SMS dentro do método do enviarToken(). Qual classe será utilizada, depende do canal que será utilizado pelo objeto Mensageiro, porém aí há uma relação de dependencia.<br>
+> O problema é que a classe Mensageiro está dependendo diretamente de outra classe, podendo ser elas Email ou Sms.
+> Portanto a classe Mensageiro só irá funcionar se a instância da classe Email ou Sms também funcionar.<br>
+> Nessa abordagem, 
+
+#### Prática - Cenário Ideal (app_mensageiro_b)
+
+![alt text](resources/image-10.png)
+
+> Os comportamentos de um objeto do tipo Email ou SMS não são de fato necessários para um objeto do tipo Mensageiro.<br>
+> Os objetos do tipo Email e SMS podem possuir comportamentos irrelavantes para um objeto do tipo Mensageiro, que busca utilziar apenas o comportamento enviar().<br>
+> Nesse exemplo, a classe Mensageiro espera ter acesso ao comportamento enviar() das classes Email e SMS, logo, esse comportamento precisa ser abstraído para uma classe abstrata ou interface.<br>
+> De modo que essa abstração possa ser usada no lugar da implementação das classes Email e SMS.<br>
+> Para atender ao Princípio da Inversão de Dependência, é necessário injetar a dependência abstrata dentro o objeto Mensageiro, ao invés de implementar as classes Email e Sms,dentro do módulo enviarToken().
+> Ao fazer isso, estará invertendo a dependência. A classe Mensageiro irá depender da abstração IMensagem e não mais das implementações das classes Email e Sms.
